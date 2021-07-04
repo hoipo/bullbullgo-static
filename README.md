@@ -1,4 +1,5 @@
 # bullbullgo-static
+这是bullbullgo网站的前端项目。
 
 ## Project setup
 ```

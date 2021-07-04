@@ -1,26 +1,42 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Nav />
+  <section>
+    <div class="container p-3">
+      <div class="row row-cols-auto g-3 justify-content-around">
+        <GrayscaleCard v-for="fund in grayscaleFunds" :data="fund" :key="fund.symbol" />
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Nav from "./components/Nav";
+import GrayscaleCard from "./components/GrayscaleCard";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Nav,
+    GrayscaleCard
+  },
+  data(){
+    return {
+      grayscaleFunds: []
+    }
+  },
+  methods:{
+    async getGrayscale(){
+      const data = await fetch('https://9vwn51xvwi.execute-api.ap-southeast-1.amazonaws.com/production/premium?symbol=GBTC,ETHE')
+        .then(res => res.json())
+        .catch(err => console.error(err));
+      this.grayscaleFunds = data;
+    }
+  },
+  created(){
+    this.getGrayscale();
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
