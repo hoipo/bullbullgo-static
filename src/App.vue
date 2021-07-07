@@ -3,6 +3,7 @@
   <section>
     <div class="container p-3">
       <div class="row row-cols-auto g-3 justify-content-around">
+        <AgCard v-if="JSON.stringify(agFund) !== '{}'" :data="agFund" />
         <GrayscaleCard v-for="fund in grayscaleFunds" :data="fund" :key="fund.symbol" />
       </div>
     </div>
@@ -12,29 +13,25 @@
 <script>
 import Nav from "./components/Nav";
 import GrayscaleCard from "./components/GrayscaleCard";
+import useGrayscleFunds from "./composables/useGrayscleFunds";
+
+import AgCard from "./components/AgCard";
+import useAg from "./composables/useAg";
 
 export default {
   name: 'App',
   components: {
     Nav,
-    GrayscaleCard
+    GrayscaleCard,
+    AgCard
   },
-  data(){
-    return {
-      grayscaleFunds: []
-    }
+  setup(){
+    const { grayscaleFunds } = useGrayscleFunds();
+
+    const { agFund } = useAg();
+
+    return { grayscaleFunds, agFund }
   },
-  methods:{
-    async getGrayscale(){
-      const data = await fetch('https://9vwn51xvwi.execute-api.ap-southeast-1.amazonaws.com/production/premium?symbol=GBTC,ETHE')
-        .then(res => res.json())
-        .catch(err => console.error(err));
-      this.grayscaleFunds = data;
-    }
-  },
-  created(){
-    this.getGrayscale();
-  }
 }
 </script>
 
