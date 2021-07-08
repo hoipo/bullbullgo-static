@@ -4,6 +4,7 @@
     <div class="container p-3">
       <div class="row row-cols-auto g-3 justify-content-around">
         <AgCard v-if="JSON.stringify(agFund) !== '{}'" :data="agFund" />
+        <ZmCard v-if="JSON.stringify(zmFund) !== '{}'" :data="zmFund" />
         <GrayscaleCard v-for="fund in grayscaleFunds" :data="fund" :key="fund.symbol" />
       </div>
     </div>
@@ -18,19 +19,25 @@ import useGrayscleFunds from "./composables/useGrayscleFunds";
 import AgCard from "./components/AgCard";
 import useAg from "./composables/useAg";
 
+import ZmCard from "./components/ZmCard";
+import useZm from "./composables/useZm";
+
 export default {
   name: 'App',
   components: {
     Nav,
     GrayscaleCard,
-    AgCard
+    AgCard,
+    ZmCard
   },
   setup(){
     const { grayscaleFunds } = useGrayscleFunds();
 
     const { agFund } = useAg();
 
-    return { grayscaleFunds, agFund }
+    const { zmFund } = useZm();
+
+    return { grayscaleFunds, agFund, zmFund }
   },
 }
 </script>
