@@ -4,7 +4,18 @@
     白银基金溢价
     </div>
   <div class="card-body">
-    <h3 :class="['card-title','d-flex', 'justify-content-between', 1 < 0 ? 'text-danger' : 'text-success']"><div>{{premium}}</div><div>{{futureMappingPremium}}</div></h3>
+    <h3 :class="['card-title','d-flex', 'justify-content-between']">
+      <div>
+        <div class="text-muted fs-6">价格/估值</div>
+        <div :class="[premium < 0 ? 'text-danger' : 'text-success']">{{premium.toFixed(2) + '%'}}</div>
+      </div>
+      <div>
+        <div class="text-muted fs-6">映射价/价格</div>
+        <div :class="[futureMappingPremium < 0 ? 'text-danger' : 'text-success']">
+          {{futureMappingPremium.toFixed(2) + '%'}}
+        </div>
+        </div>
+      </h3>
     <h6 class="card-subtitle d-flex justify-content-between mb-1"><div>买价：{{data.fundBid}}</div><div>卖价：{{data.fundAsk}}</div></h6>
     <h6 class="card-subtitle d-flex justify-content-between mb-1"><div>买量：{{data.fundBidVolume}}</div><div>卖量：{{data.fundAskVolume}}</div></h6>
     <p class="card-text mb-1">基金价格：{{data.fundPrice}}</p>
@@ -38,11 +49,11 @@ export default {
     
     const fundEstimatedValue = computed(() => (props.data.futureAveragePrice / props.data.futurePreviousSettlementPrice * props.data.fundNetValue).toFixed(4))
 
-    const premium = computed(() => ((props.data.fundPrice/fundEstimatedValue.value - 1)*100).toFixed(2) + '%')
+    const premium = computed(() => ((props.data.fundPrice/fundEstimatedValue.value - 1)*100))
 
     const futureMappingPrice = computed(() => (props.data.futurePrice / props.data.futurePreviousSettlementPrice * props.data.fundNetValue).toFixed(4))
 
-    const futureMappingPremium = computed(() => (((futureMappingPrice.value / props.data.fundPrice - 1)*100).toFixed(2) + '%'));
+    const futureMappingPremium = computed(() => (((futureMappingPrice.value / props.data.fundPrice - 1)*100)));
 
     return {
       fundEstimatedValue,
