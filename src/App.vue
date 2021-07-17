@@ -6,6 +6,7 @@
         <AgCard v-if="JSON.stringify(agFund) !== '{}'" :data="agFund" />
         <ZmCard v-if="JSON.stringify(zmFund) !== '{}'" :data="zmFund" />
         <GrayscaleCard v-for="fund in grayscaleFunds" :data="fund" :key="fund.symbol" />
+        <BinancePremiumCard v-if="binancePremium.length > 0" :data="binancePremium" />
       </div>
     </div>
   </section>
@@ -22,13 +23,17 @@ import useAg from "./composables/useAg";
 import ZmCard from "./components/ZmCard";
 import useZm from "./composables/useZm";
 
+import BinancePremiumCard from "./components/BinancePremiumCard";
+import useBinancePremium from "./composables/useBinancePremium";
+
 export default {
   name: 'App',
   components: {
     Nav,
     GrayscaleCard,
     AgCard,
-    ZmCard
+    ZmCard,
+    BinancePremiumCard
   },
   setup(){
     const { grayscaleFunds } = useGrayscleFunds();
@@ -37,7 +42,9 @@ export default {
 
     const { zmFund } = useZm();
 
-    return { grayscaleFunds, agFund, zmFund }
+    const { binancePremium } = useBinancePremium();
+
+    return { grayscaleFunds, agFund, zmFund, binancePremium }
   },
 }
 </script>
