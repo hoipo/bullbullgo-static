@@ -1,4 +1,4 @@
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, onUnmounted} from 'vue'
 
 const fetchAg = () => new Promise((resolve, reject) => {
   fetch(`https://service-g0r9o0x2-1256188994.gz.apigw.tencentcs.com/release/ag?t=${Date.now()}`)
@@ -14,14 +14,19 @@ const fetchAg = () => new Promise((resolve, reject) => {
 
 export default function useAg() {
   const agFund = ref({})
-
+  let timer
   const getAg = async () => {
     agFund.value = await fetchAg()
   }
 
-  setInterval(getAg, 15000);
+  onMounted(()=>{
+    getAg()
+    timer = setInterval(getAg, 15000);
+  })
 
-  onMounted(getAg)
+  onUnmounted(()=> {
+    clearInterval(timer)
+  })
 
 
   return {

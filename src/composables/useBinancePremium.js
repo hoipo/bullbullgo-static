@@ -1,4 +1,4 @@
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, onUnmounted} from 'vue'
 
 const fetchPreium = () => new Promise((resolve, reject) => {
   fetch(`https://9vwn51xvwi.execute-api.ap-southeast-1.amazonaws.com/production/gateway/fapi/v1/premiumIndex?t=${Date.now()}`,{
@@ -18,14 +18,18 @@ const fetchPreium = () => new Promise((resolve, reject) => {
 
 export default function useBinancePremium() {
   const binancePremium = ref([])
-
+  let timer
   const getBinancePremium = async () => {
     binancePremium.value = await fetchPreium()
   }
 
-  setInterval(getBinancePremium, 15000);
-
-  onMounted(getBinancePremium)
+  onMounted(() => {
+    getBinancePremium()
+    timer = setInterval(getBinancePremium, 15000);
+  })
+  onUnmounted(() => {
+    clearInterval(timer)
+  })
 
   return {
     binancePremium

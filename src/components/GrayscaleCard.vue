@@ -1,8 +1,11 @@
 <template>
   <div class="card p-0" style="width: 18rem;">
-    <div class="card-header">
-    {{data.symbol}}溢价
+    <div class="card-header d-flex justify-content-between">
+    <span>{{data.symbol}}溢价</span>
+    <router-link :to="{ path: '/grayscale-reminder', query: { symbol:  data.symbol}}"><i class="bi bi-alarm"></i></router-link>
+    
     </div>
+    
   <div class="card-body">
     <h3 :class="['card-title', data.premium < 0 ? 'text-danger' : 'text-success']">{{ (data.premium*100).toFixed(2) }}%</h3>
     <h6 class="card-subtitle d-flex justify-content-between"><div>买：{{data.bidPrice}}</div><div>卖：{{data.askPrice}}</div></h6>

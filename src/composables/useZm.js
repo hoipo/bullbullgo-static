@@ -1,4 +1,4 @@
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, onUnmounted} from 'vue'
 
 const fetchZm = () => new Promise((resolve, reject) => {
   fetch(`https://service-g0r9o0x2-1256188994.gz.apigw.tencentcs.com/release/zm?t=${Date.now()}`)
@@ -14,14 +14,18 @@ const fetchZm = () => new Promise((resolve, reject) => {
 
 export default function useZm() {
   const zmFund = ref({})
-
+  let timer
   const getZm = async () => {
     zmFund.value = await fetchZm()
   }
 
-  setInterval(getZm, 15000);
-
-  onMounted(getZm)
+  onMounted(()=>{
+    getZm()
+    timer = setInterval(getZm, 15000)
+  })
+  onUnmounted(() => {
+    clearInterval(timer)
+  })
 
   return {
     zmFund
