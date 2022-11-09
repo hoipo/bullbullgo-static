@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted} from 'vue'
 
 const fetchZm = () => new Promise((resolve, reject) => {
-  fetch(`http://159.75.87.108:3000/zm?t=${Date.now()}`)
+  fetch(`https://bullbullgo.com/api/zm?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => {
         resolve(data)
