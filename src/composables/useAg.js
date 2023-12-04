@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted} from 'vue'
 
 const fetchAg = () => new Promise((resolve, reject) => {
-  fetch(`https://service-7kqx5mdm-1256188994.gz.apigw.tencentcs.com/release/ag?t=${Date.now()}`)
+  fetch(`https://api.ollo.lol/arbitrage/ag?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => {
         resolve(data)
